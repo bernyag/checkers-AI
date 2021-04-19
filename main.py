@@ -1,34 +1,34 @@
 # Assets: https://techwithtim.net/wp-content/uploads/2020/09/assets.zip
 import pygame
-from checkers.constants import WIDTH, HEIGHT, SQUARE_SIZE, RED, WHITE
-from checkers.game import Game
+from interfaz.constantes import LARGO, ALTO, CUADRO, ROJO, BLANCO
+from interfaz.juego import Juego
 from heuristica.minimax import minimax
 
 FPS = 60
 
-WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption('Checkers')
+WIN = pygame.display.set_mode((LARGO, ALTO))
+pygame.display.set_caption('Damas')
 
 def get_row_col_from_mouse(pos):
     x, y = pos
-    row = y // SQUARE_SIZE
-    col = x // SQUARE_SIZE
+    row = y // CUADRO
+    col = x // CUADRO
     return row, col
 
 def main():
     run = True
     clock = pygame.time.Clock()
-    game = Game(WIN)
+    juego = Juego(WIN)
 
     while run:
         clock.tick(FPS)
         
-        if game.turn == WHITE:
-            value, new_board = minimax(game.get_board(), 4, WHITE, game)
-            game.ai_move(new_board)
+        if juego.turn == BLANCO:
+            value, new_board = minimax(juego.get_board(), 4, BLANCO, juego)
+            juego.ai_move(new_board)
 
-        if game.winner() != None:
-            print(game.winner())
+        if juego.ganador() != None:
+            print(juego.ganador())
             run = False
 
         for event in pygame.event.get():
@@ -38,9 +38,9 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 row, col = get_row_col_from_mouse(pos)
-                game.select(row, col)
+                juego.select(row, col)
 
-        game.update()
+        juego.update()
     
     pygame.quit()
 

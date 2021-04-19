@@ -6,7 +6,7 @@ BLANCO = (255, 255, 255)
 
 def minimax(pos, profundidad, max_player, juego):
     if profundidad == 0 or pos.ganador() != None:
-        return pos.calcula_costo(), pos
+        return pos.evalua(), pos
     
     if max_player:
         maxEval = float('-inf')
@@ -30,33 +30,31 @@ def minimax(pos, profundidad, max_player, juego):
         return minEval, movimiento_optimo
 
 
-def simula_movimiento(pieza, movimiento, tablero, juego, skip):
-    tablero.movimiento(pieza, movimiento[0], movimiento[1])
+def simula_movimiento(ficha, movimiento, tablero, juego, skip):
+    tablero.movimiento(ficha, movimiento[0], movimiento[1])
     if skip:
-        tablero.remove(skip)
-
+        tablero.elimina(skip)
     return tablero
 
 
 def get_movimientos(tablero, color, juego):
     movimientos = []
 
-    for pieza in tablero.get_all_pieces(color):
-        movimientos_validos = tablero.get_movimientos_validos(pieza)
+    for ficha in tablero.get_todas_fichas(color):
+        movimientos_validos = tablero.get_posibles_movimientos(ficha)
         for movimiento, skip in movimientos_validos.items():
-            dibuja_movimientos(juego, tablero, pieza)
+            dibuja_movimientos(juego, tablero, ficha)
             temp_tablero = deepcopy(tablero)
-            temp_pieza = temp_tablero.get_pieza(piece.row, pieza.col)
-            nuevo_tablero = simula_movimiento(temp_pieza, movimiento, temp_tablero, juego, skip)
+            temp_ficha = temp_tablero.get_ficha(ficha.row, ficha.col)
+            nuevo_tablero = simula_movimiento(temp_ficha, movimiento, temp_tablero, juego, skip)
             movimientos.append(nuevo_tablero)
-    
     return movimientos
 
 
-def dibuja_movimientos(juego, tablero, pieza):
-    movimientos_validos = tablero.get_movimientos_validos(pieza)
-    tablero.draw(juego.win)
-    pygame.draw.circle(juego.win, (0,255,0), (pieza.x, pieza.y), 50, 5)
+def dibuja_movimientos(juego, tablero, ficha):
+    movimientos_validos = tablero.get_posibles_movimientos(ficha)
+    tablero.draw(juego.gana)
+    pygame.draw.circle(juego.gana, (0,255,0), (ficha.x, ficha.y), 50, 5)
     juego.draw_movimientos_validos(movimientos_validos.keys())
     pygame.display.update()
     #pygame.time.delay(100)
