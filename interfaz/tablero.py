@@ -2,12 +2,12 @@ import pygame
 from .constants import NEGRO, ROJO, BLANCO, ROWS, SQUARE_SIZE, COLS
 from .piece import Piece
 
-class Board:
+class Tablero:
     def __init__(self):
-        self.board = []
+        self.tablero = []
         self.red_left = self.white_left = 12
         self.red_kings = self.white_kings = 0
-        self.create_board()
+        self.create_tablero()
     
     def draw_squares(self, win):
         win.fill(BLACK)
@@ -15,19 +15,19 @@ class Board:
             for col in range(row % 2, COLS, 2):
                 pygame.draw.rect(win, BLANCO, (row*SQUARE_SIZE, col *SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
 
-    def calcula_cost(self):
+    def calcula_costo(self):
         return self.white_left - self.red_left + (self.white_kings * 0.75 - self.red_kings * 0.75)
 
     def get_piezas(self, color):
         piezas = []
-        for fila in self.board:
+        for fila in self.tablero:
             for pieza in fila:
                 if pieza != 0 and pieza.color == color:
                     piezas.append(pieza)
         return piezas
 
     def move(self, piece, row, col):
-        self.board[piece.row][piece.col], self.board[row][col] = self.board[row][col], self.board[piece.row][piece.col]
+        self.tablero[piece.row][piece.col], self.tablero[row][col] = self.tablero[row][col], self.tablero[piece.row][piece.col]
         piece.move(row, col)
 
         if row == ROWS - 1 or row == 0:
@@ -38,33 +38,33 @@ class Board:
                 self.red_kings += 1 
 
     def get_piece(self, row, col):
-        return self.board[row][col]
+        return self.tablero[row][col]
 
-    def create_board(self):
+    def create_tablero(self):
         for row in range(ROWS):
-            self.board.append([])
+            self.tablero.append([])
             for col in range(COLS):
                 if col % 2 == ((row +  1) % 2):
                     if row < 3:
-                        self.board[row].append(Piece(row, col, WHITE))
+                        self.tablero[row].append(Piece(row, col, WHITE))
                     elif row > 4:
-                        self.board[row].append(Piece(row, col, RED))
+                        self.tablero[row].append(Piece(row, col, RED))
                     else:
-                        self.board[row].append(0)
+                        self.tablero[row].append(0)
                 else:
-                    self.board[row].append(0)
+                    self.tablero[row].append(0)
         
     def draw(self, win):
         self.draw_squares(win)
         for row in range(ROWS):
             for col in range(COLS):
-                piece = self.board[row][col]
+                piece = self.tablero[row][col]
                 if piece != 0:
                     piece.draw(win)
 
     def remove(self, pieces):
         for piece in pieces:
-            self.board[piece.row][piece.col] = 0
+            self.tablero[piece.row][piece.col] = 0
             if piece != 0:
                 if piece.color == RED:
                     self.red_left -= 1
@@ -79,7 +79,7 @@ class Board:
         
         return None 
     
-    def get_valid_moves(self, piece):
+    def get_movimientos_validos(self, piece):
         moves = {}
         left = piece.col - 1
         right = piece.col + 1
@@ -101,7 +101,7 @@ class Board:
             if left < 0:
                 break
             
-            current = self.board[r][left]
+            current = self.tablero[r][left]
             if current == 0:
                 if skipped and not last:
                     break
@@ -134,7 +134,7 @@ class Board:
             if right >= COLS:
                 break
             
-            current = self.board[r][right]
+            current = self.tablero[r][right]
             if current == 0:
                 if skipped and not last:
                     break

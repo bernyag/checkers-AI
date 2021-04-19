@@ -18,8 +18,8 @@ class Game:
         self.turn = RED
         self.valid_moves = {}
 
-    def winner(self):
-        return self.board.winner()
+    def ganador(self):
+        return self.board.ganador()
 
     def reset(self):
         self._init()
