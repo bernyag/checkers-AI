@@ -1,14 +1,14 @@
 import pygame
 
-WIDTH, HEIGHT = 800, 800
-ROWS, COLS = 8, 8
-SQUARE_SIZE = WIDTH//COLS
+LARGO, ALTO = 800, 800
+FIL, COL = 8, 8
+CUADRO = LARGO//COL
 
-# rgb
-RED = (255, 0, 0)
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-BLUE = (0, 0, 255)
-GREY = (128,128,128)
 
-CROWN = pygame.transform.scale(pygame.image.load('assets/crown.png'), (44, 25))
+ROJO = (255, 0, 0)
+BLANCO = (255, 255, 255)
+NEGRO = (0, 0, 0)
+AZUL = (0, 0, 255)
+GRIS = (128,128,128)
+
+CORONA = pygame.transform.scale(pygame.image.load('assets/Maradona.jpg'), (44, 25))
