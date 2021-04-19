@@ -80,7 +80,7 @@ class Tablero:
         
         return None 
     
-    def get_posibles_movimientos(self, ficha):
+    def get_movimientos_validos(self, ficha):
         movimientos = {}
         izq = ficha.col - 1
         derecha = ficha.col + 1
