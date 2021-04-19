@@ -2,7 +2,7 @@
 import pygame
 from interfaz.constantes import LARGO, ALTO, CUADRO, ROJO, BLANCO
 from interfaz.juego import Juego
-from minimax.algorithm import minimax
+from heuristica.minimax import minimax
 
 FPS = 60
 

@@ -41,7 +41,7 @@ def get_movimientos(tablero, color, juego):
     movimientos = []
 
     for ficha in tablero.get_todas_fichas(color):
-        movimientos_validos = tablero.get_posibles_movimientos(ficha)
+        movimientos_validos = tablero.get_movimientos_validos(ficha)
         for movimiento, skip in movimientos_validos.items():
             dibuja_movimientos(juego, tablero, ficha)
             temp_tablero = deepcopy(tablero)
@@ -52,7 +52,7 @@ def get_movimientos(tablero, color, juego):
 
 
 def dibuja_movimientos(juego, tablero, ficha):
-    movimientos_validos = tablero.get_posibles_movimientos(ficha)
+    movimientos_validos = tablero.get_movimientos_validos(ficha)
     tablero.draw(juego.gana)
     pygame.draw.circle(juego.gana, (0,255,0), (ficha.x, ficha.y), 50, 5)
     juego.draw_movimientos_validos(movimientos_validos.keys())
