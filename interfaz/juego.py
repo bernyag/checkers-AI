@@ -31,21 +31,21 @@ class Juego:
                 self.selected = None
                 self.select(row, col)
         
-        piece = self.tablero.get_piece(row, col)
-        if piece != 0 and piece.color == self.turn:
-            self.selected = piece
-            self.movimientos_validos = self.tablero.get_movimientos_validos(piece)
+        ficha = self.tablero.get_ficha(row, col)
+        if ficha != 0 and ficha.color == self.turn:
+            self.selected = ficha
+            self.movimientos_validos = self.tablero.get_movimientos_validos(ficha)
             return True
             
         return False
 
     def _movimiento(self, row, col):
-        piece = self.tablero.get_piece(row, col)
-        if self.selected and piece == 0 and (row, col) in self.movimientos_validos:
+        ficha = self.tablero.get_ficha(row, col)
+        if self.selected and ficha == 0 and (row, col) in self.movimientos_validos:
             self.tablero.movimiento(self.selected, row, col)
             skipped = self.movimientos_validos[(row, col)]
             if skipped:
-                self.tablero.remove(skipped)
+                self.tablero.elimina(skipped)
             self.change_turn()
         else:
             return False
