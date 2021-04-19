@@ -6,58 +6,56 @@ BLANCO = (255, 255, 255)
 
 def minimax(pos, profundidad, max_player, juego):
     if profundidad == 0 or pos.ganador() != None:
-        return pos.evaluate(), pos
+        return pos.evalua(), pos
     
     if max_player:
         maxEval = float('-inf')
-        best_move = None
-        for move in get_all_moves(pos, WHITE, juego):
-            evaluation = minimax(move, profundidad-1, False, juego)[0]
-            maxEval = max(maxEval, evaluation)
-            if maxEval == evaluation:
-                best_move = move
+        movimiento_optimo = None
+        for movimiento in get_movimientos(pos, BLANCO, juego):
+            evaluacion = minimax(movimiento, profundidad-1, False, juego)[0]
+            maxEval = max(maxEval, evaluacion)
+            if maxEval == evaluacion:
+                movimiento_optimo = movimiento
         
-        return maxEval, best_move
+        return maxEval, movimiento_optimo
     else:
         minEval = float('inf')
-        best_move = None
-        for move in get_all_moves(pos, RED, juego):
-            evaluation = minimax(move, profundidad-1, True, juego)[0]
-            minEval = min(minEval, evaluation)
-            if minEval == evaluation:
-                best_move = move
+        movimiento_optimo = None
+        for movimiento in get_movimientos(pos, RED, juego):
+            evaluacion = minimax(movimiento, profundidad-1, True, juego)[0]
+            minEval = min(minEval, evaluacion)
+            if minEval == evaluacion:
+                movimiento_optimo = movimiento
         
-        return minEval, best_move
+        return minEval, movimiento_optimo
 
 
-def simulate_move(piece, move, board, juego, skip):
-    board.move(piece, move[0], move[1])
+def simula_movimiento(ficha, movimiento, tablero, juego, skip):
+    tablero.movimiento(ficha, movimiento[0], movimiento[1])
     if skip:
-        board.remove(skip)
-
-    return board
-
-
-def get_all_moves(board, color, juego):
-    moves = []
-
-    for piece in board.get_all_pieces(color):
-        valid_moves = board.get_valid_moves(piece)
-        for move, skip in valid_moves.items():
-            draw_moves(juego, board, piece)
-            temp_board = deepcopy(board)
-            temp_piece = temp_board.get_piece(piece.row, piece.col)
-            new_board = simulate_move(temp_piece, move, temp_board, juego, skip)
-            moves.append(new_board)
-    
-    return moves
+        tablero.elimina(skip)
+    return tablero
 
 
-def draw_moves(juego, board, piece):
-    valid_moves = board.get_valid_moves(piece)
-    board.draw(juego.win)
-    pygame.draw.circle(juego.win, (0,255,0), (piece.x, piece.y), 50, 5)
-    juego.draw_valid_moves(valid_moves.keys())
+def get_movimientos(tablero, color, juego):
+    movimientos = []
+
+    for ficha in tablero.get_todas_fichas(color):
+        movimientos_validos = tablero.get_posibles_movimientos(ficha)
+        for movimiento, skip in movimientos_validos.items():
+            dibuja_movimientos(juego, tablero, ficha)
+            temp_tablero = deepcopy(tablero)
+            temp_ficha = temp_tablero.get_ficha(ficha.row, ficha.col)
+            nuevo_tablero = simula_movimiento(temp_ficha, movimiento, temp_tablero, juego, skip)
+            movimientos.append(nuevo_tablero)
+    return movimientos
+
+
+def dibuja_movimientos(juego, tablero, ficha):
+    movimientos_validos = tablero.get_posibles_movimientos(ficha)
+    tablero.draw(juego.gana)
+    pygame.draw.circle(juego.gana, (0,255,0), (ficha.x, ficha.y), 50, 5)
+    juego.draw_movimientos_validos(movimientos_validos.keys())
     pygame.display.update()
     #pygame.time.delay(100)
 
