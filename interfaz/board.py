@@ -15,16 +15,16 @@ class Board:
             for col in range(row % 2, COLS, 2):
                 pygame.draw.rect(win, BLANCO, (row*SQUARE_SIZE, col *SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
 
-    def evaluate(self):
-        return self.white_left - self.red_left + (self.white_kings * 0.5 - self.red_kings * 0.5)
+    def calcula_cost(self):
+        return self.white_left - self.red_left + (self.white_kings * 0.75 - self.red_kings * 0.75)
 
-    def get_all_pieces(self, color):
-        pieces = []
-        for row in self.board:
-            for piece in row:
-                if piece != 0 and piece.color == color:
-                    pieces.append(piece)
-        return pieces
+    def get_piezas(self, color):
+        piezas = []
+        for fila in self.board:
+            for pieza in fila:
+                if pieza != 0 and pieza.color == color:
+                    piezas.append(pieza)
+        return piezas
 
     def move(self, piece, row, col):
         self.board[piece.row][piece.col], self.board[row][col] = self.board[row][col], self.board[piece.row][piece.col]
