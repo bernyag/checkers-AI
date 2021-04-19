@@ -1,8 +1,8 @@
 import pygame
 
 LARGO, ALTO = 800, 800
-FIL, COL = 8, 8
-CUADRO = LARGO//COL
+FILAS, COLS = 8, 8
+CUADRO = LARGO//COLS
 
 
 ROJO = (255, 0, 0)

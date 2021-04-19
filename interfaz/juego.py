@@ -3,12 +3,12 @@ from .constants import RED, WHITE, BLUE, SQUARE_SIZE
 from checkers.board import Board
 
 class Game:
-    def __init__(self, win):
+    def __init__(self, ventana):
         self._init()
-        self.win = win
+        self.ventana = ventana
     
     def update(self):
-        self.board.draw(self.win)
+        self.board.draw(self.ventana)
         self.draw_valid_moves(self.valid_moves)
         pygame.display.update()
 
@@ -55,7 +55,7 @@ class Game:
     def draw_valid_moves(self, moves):
         for move in moves:
             row, col = move
-            pygame.draw.circle(self.win, BLUE, (col * SQUARE_SIZE + SQUARE_SIZE//2, row * SQUARE_SIZE + SQUARE_SIZE//2), 15)
+            pygame.draw.circle(self.ventana, BLUE, (col * SQUARE_SIZE + SQUARE_SIZE//2, row * SQUARE_SIZE + SQUARE_SIZE//2), 15)
 
     def change_turn(self):
         self.valid_moves = {}
