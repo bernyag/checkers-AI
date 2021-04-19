@@ -1,32 +1,32 @@
 import pygame
-from .constants import RED, WHITE, BLUE, SQUARE_SIZE
-from checkers.board import Board
+from .constantes import ROJO, BLANCO, AZUL, CUADRO
+from .tablero import Tablero
 
-class Game:
+class Juego:
     def __init__(self, ventana):
         self._init()
         self.ventana = ventana
     
     def update(self):
-        self.board.draw(self.ventana)
-        self.draw_valid_moves(self.valid_moves)
+        self.tablero.draw(self.ventana)
+        self.draw_movimientos_validos(self.movimientos_validos)
         pygame.display.update()
 
     def _init(self):
         self.selected = None
-        self.board = Board()
-        self.turn = RED
-        self.valid_moves = {}
+        self.tablero = Tablero()
+        self.turn = ROJO
+        self.movimientos_validos = {}
 
-    def winner(self):
-        return self.board.winner()
+    def ganador(self):
+        return self.tablero.ganador()
 
     def reset(self):
         self._init()
 
     def select(self, row, col):
         if self.selected:
-            result = self._move(row, col)
+            result = self._movimiento(row, col)
             if not result:
                 self.selected = None
                 self.select(row, col)
@@ -46,28 +46,27 @@ class Game:
             skipped = self.movimientos_validos[(row, col)]
             if skipped:
                 self.tablero.elimina(skipped)
-
             self.change_turn()
         else:
             return False
 
         return True
 
-    def draw_valid_moves(self, moves):
-        for move in moves:
-            row, col = move
-            pygame.draw.circle(self.ventana, BLUE, (col * SQUARE_SIZE + SQUARE_SIZE//2, row * SQUARE_SIZE + SQUARE_SIZE//2), 15)
+    def draw_movimientos_validos(self, movimientos):
+        for movimiento in movimientos:
+            row, col = movimiento
+            pygame.draw.circle(self.ventana, BLUE, (col * CUADRO + CUADRO//2, row * CUADRO + CUADRO//2), 15)
 
     def change_turn(self):
-        self.valid_moves = {}
-        if self.turn == RED:
-            self.turn = WHITE
+        self.movimientos_validos = {}
+        if self.turn == ROJO:
+            self.turn = BLANCO
         else:
-            self.turn = RED
+            self.turn = ROJO
 
-    def get_board(self):
-        return self.board
+    def get_tablero(self):
+        return self.tablero
 
-    def ai_move(self, board):
-        self.board = board
+    def ai_movimiento(self, tablero):
+        self.tablero = tablero
         self.change_turn()

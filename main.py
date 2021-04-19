@@ -2,11 +2,7 @@
 import pygame
 from interfaz.constantes import LARGO, ALTO, CUADRO, ROJO, BLANCO
 from interfaz.juego import Juego
-<<<<<<< HEAD
 from minimax.algorithm import minimax
-=======
-from heuristica.minimax import minimax
->>>>>>> 31556f42b5fbb049cab251639dd66632eda03daf
 
 FPS = 60
 
@@ -29,15 +25,11 @@ def main():
         
         if juego.turn == BLANCO:
             value, new_board = minimax(juego.get_board(), 4, BLANCO, juego)
-            juego.ai_move(new_board)
+            juego.ai_movimiento(new_board)
 
-<<<<<<< HEAD
-        if juego.winner() != None:
-            print(juego.winner())
-=======
+
         if juego.ganador() != None:
             print(juego.ganador())
->>>>>>> 31556f42b5fbb049cab251639dd66632eda03daf
             run = False
 
         for event in pygame.event.get():

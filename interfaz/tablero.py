@@ -1,11 +1,7 @@
 import pygame
-<<<<<<< HEAD
-from .constants import NEGRO, ROJO, BLANCO, FILAS, CUADRO, COLS
-from .ficha import Piece
-=======
+
 from .constantes import NEGRO, ROJO, BLANCO, FILAS, CUADRO, COLS
 from .ficha import Ficha
->>>>>>> 31556f42b5fbb049cab251639dd66632eda03daf
 
 class Tablero:
     def __init__(self):
@@ -31,15 +27,9 @@ class Tablero:
                     fichas.append(ficha)
         return fichas
 
-<<<<<<< HEAD
-    def mueve(self, ficha, fila, col):
-        self.tablero[ficha.fila][ficha.col], self.tablero[fila][col] = self.tablero[fila][col], self.tablero[ficha.fila][ficha.col]
-        ficha.mueve(fila, col)
-=======
     def movimiento(self, ficha, fila, col):
         self.tablero[ficha.fila][ficha.col], self.tablero[fila][col] = self.tablero[fila][col], self.tablero[ficha.fila][ficha.col]
         ficha.movimiento(fila, col)
->>>>>>> 31556f42b5fbb049cab251639dd66632eda03daf
 
         if fila == FILAS - 1 or fila == 0:
             ficha.make_king()
@@ -57,15 +47,9 @@ class Tablero:
             for col in range(COLS):
                 if col % 2 == ((fila +  1) % 2):
                     if fila < 3:
-<<<<<<< HEAD
-                        self.tablero[fila].append(Piece(fila, col, BLANCO))
-                    elif fila > 4:
-                        self.tablero[fila].append(Piece(fila, col, ROJO))
-=======
                         self.tablero[fila].append(Ficha(fila, col, BLANCO))
                     elif fila > 4:
                         self.tablero[fila].append(Ficha(fila, col, ROJO))
->>>>>>> 31556f42b5fbb049cab251639dd66632eda03daf
                     else:
                         self.tablero[fila].append(0)
                 else:
