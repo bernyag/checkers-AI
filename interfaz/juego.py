@@ -55,7 +55,7 @@ class Juego:
     def draw_movimientos_validos(self, movimientos):
         for movimiento in movimientos:
             row, col = movimiento
-            pygame.draw.circle(self.ventana, BLUE, (col * CUADRO + CUADRO//2, row * CUADRO + CUADRO//2), 15)
+            pygame.draw.circle(self.ventana, AZUL, (col * CUADRO + CUADRO//2, row * CUADRO + CUADRO//2), 15)
 
     def change_turn(self):
         self.movimientos_validos = {}
