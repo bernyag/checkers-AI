@@ -1,32 +1,32 @@
 import pygame
-from .constantes import ROJO, BLANCO, AZUL, CUADRO
-from .tablero import Tablero
+from .constants import RED, WHITE, BLUE, SQUARE_SIZE
+from checkers.board import Board
 
-class Juego:
+class Game:
     def __init__(self, ventana):
         self._init()
         self.ventana = ventana
     
     def update(self):
-        self.tablero.draw(self.ventana)
-        self.draw_movimientos_validos(self.movimientos_validos)
+        self.board.draw(self.ventana)
+        self.draw_valid_moves(self.valid_moves)
         pygame.display.update()
 
     def _init(self):
         self.selected = None
-        self.tablero = Tablero()
+        self.board = Board()
         self.turn = RED
-        self.movimientos_validos = {}
+        self.valid_moves = {}
 
-    def ganador(self):
-        return self.tablero.ganador()
+    def winner(self):
+        return self.board.winner()
 
     def reset(self):
         self._init()
 
     def select(self, row, col):
         if self.selected:
-            result = self._movimiento(row, col)
+            result = self._move(row, col)
             if not result:
                 self.selected = None
                 self.select(row, col)
@@ -46,27 +46,28 @@ class Juego:
             skipped = self.movimientos_validos[(row, col)]
             if skipped:
                 self.tablero.elimina(skipped)
+
             self.change_turn()
         else:
             return False
 
         return True
 
-    def draw_movimientos_validos(self, movimientos):
-        for movimiento in movimientos:
-            row, col = movimiento
+    def draw_valid_moves(self, moves):
+        for move in moves:
+            row, col = move
             pygame.draw.circle(self.ventana, BLUE, (col * SQUARE_SIZE + SQUARE_SIZE//2, row * SQUARE_SIZE + SQUARE_SIZE//2), 15)
 
     def change_turn(self):
-        self.movimientos_validos = {}
+        self.valid_moves = {}
         if self.turn == RED:
             self.turn = WHITE
         else:
             self.turn = RED
 
-    def get_tablero(self):
-        return self.tablero
+    def get_board(self):
+        return self.board
 
-    def ai_movimiento(self, tablero):
-        self.tablero = tablero
+    def ai_move(self, board):
+        self.board = board
         self.change_turn()
