@@ -1,5 +1,5 @@
 import pygame
-from .constantes import ROJO, BLANCO, AZUL, CUADRO
+from .constantes import DORADO, BLANCO, AZUL, CUADRO
 from .tablero import Tablero
 
 class Juego:
@@ -15,7 +15,7 @@ class Juego:
     def _init(self):
         self.selected = None
         self.tablero = Tablero()
-        self.turn = ROJO
+        self.turn = DORADO
         self.movimientos_validos = {}
 
     def ganador(self):
@@ -55,14 +55,14 @@ class Juego:
     def draw_movimientos_validos(self, movimientos):
         for movimiento in movimientos:
             row, col = movimiento
-            pygame.draw.circle(self.ventana, BLUE, (col * CUADRO + CUADRO//2, row * CUADRO + CUADRO//2), 15)
+            pygame.draw.circle(self.ventana, AZUL, (col * CUADRO + CUADRO//2, row * CUADRO + CUADRO//2), 15)
 
     def change_turn(self):
         self.movimientos_validos = {}
-        if self.turn == ROJO:
+        if self.turn == DORADO:
             self.turn = BLANCO
         else:
-            self.turn = ROJO
+            self.turn = DORADO
 
     def get_tablero(self):
         return self.tablero
