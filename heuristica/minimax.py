@@ -4,7 +4,7 @@ import pygame
 CLARO = (117,173,224)
 BLANCO = (255, 255, 255)
 
-def minimax(pos, profundidad, max_player, juego, alfa):
+def minimax(pos, profundidad, max_player, juego):
     if profundidad == 0 or pos.ganador() != None:
         return pos.evalua(), pos
     
@@ -21,6 +21,8 @@ def minimax(pos, profundidad, max_player, juego, alfa):
     else:
         minimo = float('100000000')
         movimiento_optimo = None
+
+        #movimiento es [f1_izq] getmov [[f1_izq][f1_der][f2_izq][f2_der]]
         for movimiento in get_movimientos(pos, CLARO, juego):
             evaluacion = minimax(movimiento, profundidad-1, True, juego)[0]
             ##en misma ficha, quieres minimo
@@ -64,4 +66,5 @@ def get_movimientos(tablero, color, juego):
             temp_ficha = temp_tablero.get_ficha(ficha.fila, ficha.col)
             nuevo_tablero = simula_movimiento(temp_ficha, movimiento, temp_tablero, juego, skip)
             movimientos.append(nuevo_tablero)
+            
     return movimientos
