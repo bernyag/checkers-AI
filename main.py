@@ -1,7 +1,7 @@
 import pygame
 from interfaz.constantes import LARGO, ALTO, CUADRO, DORADO, BLANCO
 from interfaz.juego import Juego
-from heuristica.minimax import minimax
+from heuristica.heuristicas import minimax
 
 ##cte de velocidad que se utilizara para que mueva la computadora
 FPS = 60
@@ -26,7 +26,7 @@ def main():
         clock.tick(FPS)
         
         if juego.turn == BLANCO:
-            value, new_board = minimax(juego.get_tablero(), 1, BLANCO, juego)
+            value, new_board = minimax(juego.get_tablero(), 3, BLANCO, juego)
             juego.ai_movimiento(new_board)
 
 
