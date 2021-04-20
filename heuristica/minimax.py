@@ -9,25 +9,25 @@ def minimax(pos, profundidad, max_player, juego):
         return pos.evalua(), pos
     
     if max_player:
-        maxEval = float('-inf')
+        maximo = float('-100000000')
         movimiento_optimo = None
         for movimiento in get_movimientos(pos, BLANCO, juego):
             evaluacion = minimax(movimiento, profundidad-1, False, juego)[0]
-            maxEval = max(maxEval, evaluacion)
-            if maxEval == evaluacion:
+            maximo = max(maximo, evaluacion)
+            if maximo == evaluacion:
                 movimiento_optimo = movimiento
         
-        return maxEval, movimiento_optimo
+        return maximo, movimiento_optimo
     else:
-        minEval = float('inf')
+        minimo = float('100000000')
         movimiento_optimo = None
         for movimiento in get_movimientos(pos, CLARO, juego):
             evaluacion = minimax(movimiento, profundidad-1, True, juego)[0]
-            minEval = min(minEval, evaluacion)
-            if minEval == evaluacion:
+            minimo = min(minimo, evaluacion)
+            if minimo == evaluacion:
                 movimiento_optimo = movimiento
         
-        return minEval, movimiento_optimo
+        return minimo, movimiento_optimo
 
 
 def simula_movimiento(ficha, movimiento, tablero, juego, skip):

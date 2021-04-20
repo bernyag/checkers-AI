@@ -9,7 +9,6 @@ class Juego:
     
     def update(self):
         self.tablero.draw(self.ventana)
-        #self.draw_movimientos_validos(self.movimientos_validos)
         pygame.display.update()
 
     def _init(self):
