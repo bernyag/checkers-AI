@@ -1,4 +1,3 @@
-# Assets: https://techwithtim.net/wp-content/uploads/2020/09/assets.zip
 import pygame
 from interfaz.constantes import LARGO, ALTO, CUADRO, DORADO, BLANCO
 from interfaz.juego import Juego
@@ -24,7 +23,7 @@ def main():
         clock.tick(FPS)
         
         if juego.turn == BLANCO:
-            value, new_board = minimax(juego.get_tablero(), 4, BLANCO, juego)
+            value, new_board = minimax(juego.get_tablero(), 1, BLANCO, juego)
             juego.ai_movimiento(new_board)
 
 
@@ -40,9 +39,6 @@ def main():
                 pos = pygame.mouse.get_pos()
                 row, col = get_row_col_from_mouse(pos)
                 juego.select(row, col)
-
         juego.update()
-    
     pygame.quit()
-
 main()

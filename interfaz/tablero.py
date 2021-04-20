@@ -87,15 +87,15 @@ class Tablero:
         fila = ficha.fila
 
         if ficha.color == DORADO or ficha.rey:
-            movimientos.update(self._traverse_left(fila -1, max(fila-3, -1), -1, ficha.color, izq))
-            movimientos.update(self._traverse_right(fila -1, max(fila-3, -1), -1, ficha.color, derecha))
+            movimientos.update(self._mueve_izquierda(fila -1, max(fila-3, -1), -1, ficha.color, izq))
+            movimientos.update(self._mueve_derecha(fila -1, max(fila-3, -1), -1, ficha.color, derecha))
         if ficha.color == BLANCO or ficha.rey:
-            movimientos.update(self._traverse_left(fila +1, min(fila+3, FILAS), 1, ficha.color, izq))
-            movimientos.update(self._traverse_right(fila +1, min(fila+3, FILAS), 1, ficha.color, derecha))
+            movimientos.update(self._mueve_izquierda(fila +1, min(fila+3, FILAS), 1, ficha.color, izq))
+            movimientos.update(self._mueve_derecha(fila +1, min(fila+3, FILAS), 1, ficha.color, derecha))
     
         return movimientos
 
-    def _traverse_left(self, start, stop, step, color, izq, skipped=[]):
+    def _mueve_izquierda(self, start, stop, step, color, izq, skipped=[]):
         movimientos = {}
         last = []
         for r in range(start, stop, step):
@@ -116,8 +116,8 @@ class Tablero:
                         fila = max(r-3, 0)
                     else:
                         fila = min(r+3, FILAS)
-                    movimientos.update(self._traverse_left(r+step, fila, step, color, izq-1,skipped=last))
-                    movimientos.update(self._traverse_right(r+step, fila, step, color, izq+1,skipped=last))
+                    movimientos.update(self._mueve_izquierda(r+step, fila, step, color, izq-1,skipped=last))
+                    movimientos.update(self._mueve_derecha(r+step, fila, step, color, izq+1,skipped=last))
                 break
             elif current.color == color:
                 break
@@ -128,7 +128,7 @@ class Tablero:
         
         return movimientos
 
-    def _traverse_right(self, start, stop, step, color, derecha, skipped=[]):
+    def _mueve_derecha(self, start, stop, step, color, derecha, skipped=[]):
         movimientos = {}
         last = []
         for r in range(start, stop, step):
@@ -149,8 +149,8 @@ class Tablero:
                         fila = max(r-3, 0)
                     else:
                         fila = min(r+3, FILAS)
-                    movimientos.update(self._traverse_left(r+step, fila, step, color, derecha-1,skipped=last))
-                    movimientos.update(self._traverse_right(r+step, fila, step, color, derecha+1,skipped=last))
+                    movimientos.update(self._mueve_izquierda(r+step, fila, step, color, derecha-1,skipped=last))
+                    movimientos.update(self._mueve_derecha(r+step, fila, step, color, derecha+1,skipped=last))
                 break
             elif current.color == color:
                 break
