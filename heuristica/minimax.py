@@ -4,7 +4,7 @@ import pygame
 CLARO = (117,173,224)
 BLANCO = (255, 255, 255)
 
-def minimax(pos, profundidad, max_player, juego):
+def minimax(pos, profundidad, max_player, juego, alfa):
     if profundidad == 0 or pos.ganador() != None:
         return pos.evalua(), pos
     
@@ -24,8 +24,20 @@ def minimax(pos, profundidad, max_player, juego):
         for movimiento in get_movimientos(pos, CLARO, juego):
             evaluacion = minimax(movimiento, profundidad-1, True, juego)[0]
             ##en misma ficha, quieres minimo
-            ##si siguiente ficha es mas chico que tu minimo anterior, pruneas
+            ##cuando acabas de checar posibles movs de una ficha, asignar el min a alfa 
+            ##si ya estas en siguiente ficha, y evaluacion es mas chico que tu minimo anterior, pruneas
+            
+            #if estas checando la misma ficha
             minimo = min(minimo, evaluacion)
+
+            #if estas checando ultimo mov de misma ficha
+                #alfa = minimo
+
+            #if cambiaste de ficha que se esta checando
+                #for movimientos de nueva ficha
+                #if alfa>minimo 
+                    #prunear -> cambiar a siguiente ficha y sus movimientos
+
             if minimo == evaluacion:
                 movimiento_optimo = movimiento
         
