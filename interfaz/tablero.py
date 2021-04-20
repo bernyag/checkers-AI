@@ -4,18 +4,26 @@ from .constantes import CLARO, DORADO, BLANCO, FILAS, CUADRO, COLS
 from .ficha import Ficha
 
 class Tablero:
+    #funcion que crea un tablero
+        ##12 fichas por color y 0 reyes
     def __init__(self):
         self.tablero = []
         self.num_dorados = self.num_blancos = 12
         self.reyes_dorados = self.reyes_blancos = 0
         self.Tablero()
     
+    #funcion que dibuja el tablero
+        ##primero llena todo de azul claro
+        ##para renglones pares + 0: 0 mod 2 = 0, llena cuadro 0 de blanco y va de 2 en 2 
+        ##para renglones impares: 1 mod 2 = 1, llena cuadro 1 de blanco y va de 2 en 2
     def draw_squares(self, ventana):
         ventana.fill(CLARO)
         for fila in range(FILAS):
             for col in range(fila % 2, COLS, 2):
-                pygame.draw.rect(ventana, BLANCO, (fila*CUADRO, col *CUADRO, CUADRO, CUADRO))
+                #utiliza tamanos como coordenadas para colorear cuadros
+                pygame.draw.rect(ventana, BLANCO, (fila*CUADRO, col*CUADRO, CUADRO, CUADRO))
 
+    #funcion 
     def evalua(self):
         return self.num_blancos - self.num_dorados + (self.reyes_blancos * 0.5 - self.reyes_dorados * 0.5)
 

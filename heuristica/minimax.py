@@ -23,6 +23,8 @@ def minimax(pos, profundidad, max_player, juego):
         movimiento_optimo = None
         for movimiento in get_movimientos(pos, CLARO, juego):
             evaluacion = minimax(movimiento, profundidad-1, True, juego)[0]
+            ##en misma ficha, quieres minimo
+            ##si siguiente ficha es mas chico que tu minimo anterior, pruneas
             minimo = min(minimo, evaluacion)
             if minimo == evaluacion:
                 movimiento_optimo = movimiento
@@ -36,13 +38,16 @@ def simula_movimiento(ficha, movimiento, tablero, juego, skip):
         tablero.elimina(skip)
     return tablero
 
-
+#funcion para encontrar todos los movimientos de todas las fichas
 def get_movimientos(tablero, color, juego):
     movimientos = []
 
+    #for loop donde va cambiando de fichas hasta que checa todas 
     for ficha in tablero.get_todas_fichas(color):
         movimientos_validos = tablero.get_movimientos_validos(ficha)
+        #for loop para cada movimiento o skip (comer ficha rival) dentro de los posibles
         for movimiento, skip in movimientos_validos.items():
+            #crea un tablero temporal que es la copia del actual
             temp_tablero = deepcopy(tablero)
             temp_ficha = temp_tablero.get_ficha(ficha.fila, ficha.col)
             nuevo_tablero = simula_movimiento(temp_ficha, movimiento, temp_tablero, juego, skip)
