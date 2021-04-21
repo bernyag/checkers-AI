@@ -1,47 +1,51 @@
 import pygame
 from interfaz.constantes import LARGO, ALTO, CUADRO, DORADO, BLANCO
-from interfaz.juego import Juego
-from heuristica.heuristicas import minimax
+from interfaz.interfaz import Juego
+from heuristica.heuristicas import ab_pruning
+import time
 
 ##cte de velocidad que se utilizara para que mueva la computadora
-FPS = 60
+velocidad = 60
 
 ##ventana donde se mostrara el tablero
 VENTANA = pygame.display.set_mode((LARGO, ALTO))
 ##nombre del tablero
 pygame.display.set_caption('MaraDamas')
 
-def get_row_col_from_mouse(pos):
+def posicion_mouse(pos):
     x, y = pos
-    row = y // CUADRO
+    fila = y // CUADRO
     col = x // CUADRO
-    return row, col
+    return fila, col
 
 def main():
-    run = True
+    ejec = True
     clock = pygame.time.Clock()
     juego = Juego(VENTANA)
 
-    while run:
-        clock.tick(FPS)
+    while ejec:
+        clock.tick(velocidad)
         
         if juego.turn == BLANCO:
-            value, new_board = minimax(juego.get_tablero(), 3, BLANCO, juego)
+            inicio = time.time()
+            value, new_board = ab_pruning(juego.get_tablero(), 3, BLANCO, juego, -10000000, 1000000)
             juego.ai_movimiento(new_board)
+            fin = time.time()
+            print('Tiempo en evaluar: {}s'.format(round(fin - inicio, 7)))
 
 
         if juego.ganador() != None:
             print(juego.ganador())
-            run = False
+            ejec = False
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                run = False
+                ejec = False
             ##hace movimientos acorde al click del mouse
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
-                row, col = get_row_col_from_mouse(pos)
-                juego.select(row, col)
+                fila, col = posicion_mouse(pos)
+                juego.select(fila, col)
         juego.update()
     pygame.quit()
 main()
