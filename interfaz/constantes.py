@@ -1,6 +1,6 @@
 import pygame
 
-LARGO, ALTO = 800, 800
+LARGO, ALTO = 1000, 1000
 FILAS, COLS = 8, 8
 CUADRO = LARGO//COLS
 
@@ -11,4 +11,4 @@ CLARO = (117,173,224)
 AZUL = (0, 0, 255)
 GRIS = (128,128,128)
 
-CORONA = pygame.transform.scale(pygame.image.load('assets/Maradona.png'), (60, 80))
+CORONA = pygame.transform.scale(pygame.image.load('assets/Maradona.png'), (80, 100))

@@ -28,14 +28,16 @@ def main():
         
         if juego.turn == BLANCO:
             inicio = time.time()
-            value, new_board = ab_pruning(juego.get_tablero(), 3, BLANCO, juego, -10000000, 1000000)
+            value, new_board = ab_pruning(juego.get_tablero(), 10, BLANCO, juego, -10000000, 1000000)
             juego.ai_movimiento(new_board)
             fin = time.time()
             print('Tiempo en evaluar: {}s'.format(round(fin - inicio, 7)))
 
-
         if juego.ganador() != None:
-            print(juego.ganador())
+            if str(juego.turn) == (246, 181, 6):
+                print('El ganador es: BLANCO')
+            else:
+                print('El ganador es: DORADO')
             ejec = False
 
         for event in pygame.event.get():

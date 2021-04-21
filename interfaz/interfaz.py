@@ -1,18 +1,5 @@
 import pygame
-
-LARGO, ALTO = 800, 800
-FILAS, COLS = 8, 8
-CUADRO = LARGO//COLS
-
-
-DORADO = (246,181,6)
-BLANCO = (255, 255, 255)
-CLARO = (117,173,224)
-AZUL = (0, 0, 255)
-GRIS = (128,128,128)
-
-CORONA = pygame.transform.scale(pygame.image.load('assets/Maradona.png'), (60, 80))
-
+from .constantes import LARGO, ALTO, FILAS, COLS, CUADRO, DORADO, BLANCO, CLARO, AZUL, GRIS, CORONA
 
 class Ficha:
     PADDING = 15
@@ -71,7 +58,7 @@ class Tablero:
 
     #funcion 
     def evalua(self):
-        return self.num_blancos - self.num_dorados + (self.reyes_blancos * 0.5 - self.reyes_dorados * 0.5)
+        return self.num_blancos - self.num_dorados + (self.reyes_blancos * 2 - self.reyes_dorados * 2)
 
     def get_todas_fichas(self, color):
         fichas = []
