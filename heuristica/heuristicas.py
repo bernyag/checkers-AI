@@ -52,6 +52,31 @@ def ab_pruning(pos, profundidad, max_player, juego, alpha, beta):
         
         return minimo, movimiento_optimo
 
+def ab_prunning(pos, profundidad, max_player, juego):
+    if profundidad == 0 or pos.ganador() != None:
+        return pos.evalua(), pos
+
+    if max_player:
+        maximo = float('-inf')
+        movimiento_optimo = None
+        for movimiento in get_movimientos(pos, BLANCO, juego):
+            evaluacion = ab_prunning(movimiento, profundidad-1, False, juego)[0]
+            maximo = max(maximo, evaluacion)
+            if maximo == evaluacion:
+                movimiento_optimo = movimiento
+
+        return maximo, movimiento_optimo
+    else:
+        minimo = float('inf')
+        movimiento_optimo = None
+        for movimiento in get_movimientos(pos, CLARO, juego):
+            evaluacion = ab_prunning(movimiento, profundidad-1, True, juego)[0]
+            minimo = min(minimo, evaluacion)
+            if minimo == evaluacion:
+                movimiento_optimo = movimiento
+
+        return minimo, movimiento_optimo
+
 def simula_movimiento(ficha, movimiento, tablero, juego, skip):
     tablero.movimiento(ficha, movimiento[0], movimiento[1])
     if skip:
