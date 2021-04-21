@@ -115,7 +115,7 @@ def main3():
         
         if juego.turn == BLANCO:
             inicio = time.time()
-            value, new_board = ab_prunning(juego.get_tablero(), 5, BLANCO, juego)
+            value, new_board = ab_prunning(juego.get_tablero(), 100, BLANCO, juego)
             juego.ai_movimiento(new_board)
             fin = time.time()
             print('Tiempo en evaluar: {}s'.format(round(fin - inicio, 7)))
