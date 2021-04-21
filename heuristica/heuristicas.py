@@ -4,7 +4,7 @@ import pygame
 CLARO = (117,173,224)
 BLANCO = (255, 255, 255)
 
-def minimax(pos, profundidad, max_player, juego):
+def ab_pruning(pos, profundidad, max_player, juego):
     if profundidad == 0 or pos.ganador() != None:
         return pos.evalua(), pos
     
@@ -12,7 +12,7 @@ def minimax(pos, profundidad, max_player, juego):
         maximo = float('-100000000')
         movimiento_optimo = None
         for movimiento in get_movimientos(pos, BLANCO, juego):
-            evaluacion = minimax(movimiento[0], profundidad-1, False, juego)[0]
+            evaluacion = ab_pruning(movimiento[0], profundidad-1, False, juego)[0]
             maximo = max(maximo, evaluacion)
             if maximo == evaluacion:
                 movimiento_optimo = movimiento[0]
@@ -24,7 +24,7 @@ def minimax(pos, profundidad, max_player, juego):
 
         #movimiento es [f1_izq] getmov [[f1_izq][f1_der][f2_izq][f2_der]]
         for movimiento in get_movimientos(pos, CLARO, juego):
-            evaluacion = minimax(movimiento[0], profundidad-1, True, juego)[0]
+            evaluacion = ab_pruning(movimiento[0], profundidad-1, True, juego)[0]
             ##en misma ficha, quieres minimo
             ##cuando acabas de checar posibles movs de una ficha, asignar el min a alfa 
             ##si ya estas en siguiente ficha, y evaluacion es mas chico que tu minimo anterior, pruneas
@@ -47,6 +47,30 @@ def minimax(pos, profundidad, max_player, juego):
         
         return minimo, movimiento_optimo
 
+def minimax(pos, profundidad, max_player, juego):
+    if profundidad == 0 or pos.ganador() != None:
+        return pos.evalua(), pos
+    
+    if max_player:
+        maximo = float('-100000000')
+        movimiento_optimo = None
+        for movimiento in get_movimientos(pos, BLANCO, juego):
+            evaluacion = minimax(movimiento, profundidad-1, False, juego)[0]
+            maximo = max(maximo, evaluacion)
+            if maximo == evaluacion:
+                movimiento_optimo = movimiento
+        
+        return maximo, movimiento_optimo
+    else:
+        minimo = float('100000000')
+        movimiento_optimo = None
+        for movimiento in get_movimientos(pos, CLARO, juego):
+            evaluacion = minimax(movimiento, profundidad-1, True, juego)[0]
+            minimo = min(minimo, evaluacion)
+            if minimo == evaluacion:
+                movimiento_optimo = movimiento
+        
+        return minimo, movimiento_optimo
 
 def simula_movimiento(ficha, movimiento, tablero, juego, skip):
     tablero.movimiento(ficha, movimiento[0], movimiento[1])
