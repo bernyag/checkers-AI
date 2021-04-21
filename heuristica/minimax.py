@@ -12,10 +12,10 @@ def minimax(pos, profundidad, max_player, juego):
         maximo = float('-100000000')
         movimiento_optimo = None
         for movimiento in get_movimientos(pos, BLANCO, juego):
-            evaluacion = minimax(movimiento, profundidad-1, False, juego)[0]
+            evaluacion = minimax(movimiento[0], profundidad-1, False, juego)[0]
             maximo = max(maximo, evaluacion)
             if maximo == evaluacion:
-                movimiento_optimo = movimiento
+                movimiento_optimo = movimiento[0]
         
         return maximo, movimiento_optimo
     else:
@@ -24,7 +24,7 @@ def minimax(pos, profundidad, max_player, juego):
 
         #movimiento es [f1_izq] getmov [[f1_izq][f1_der][f2_izq][f2_der]]
         for movimiento in get_movimientos(pos, CLARO, juego):
-            evaluacion = minimax(movimiento, profundidad-1, True, juego)[0]
+            evaluacion = minimax(movimiento[0], profundidad-1, True, juego)[0]
             ##en misma ficha, quieres minimo
             ##cuando acabas de checar posibles movs de una ficha, asignar el min a alfa 
             ##si ya estas en siguiente ficha, y evaluacion es mas chico que tu minimo anterior, pruneas
@@ -33,15 +33,17 @@ def minimax(pos, profundidad, max_player, juego):
             minimo = min(minimo, evaluacion)
 
             #if estas checando ultimo mov de misma ficha
-                #alfa = minimo
+                #alfa = minimo            
 
             #if cambiaste de ficha que se esta checando
                 #for movimientos de nueva ficha
-                #if alfa>minimo 
+                #if alfa>minimo
+                # 8
+                # 10 7 9 
                     #prunear -> cambiar a siguiente ficha y sus movimientos
 
             if minimo == evaluacion:
-                movimiento_optimo = movimiento
+                movimiento_optimo = movimiento[0]
         
         return minimo, movimiento_optimo
 
@@ -65,6 +67,7 @@ def get_movimientos(tablero, color, juego):
             temp_tablero = deepcopy(tablero)
             temp_ficha = temp_tablero.get_ficha(ficha.fila, ficha.col)
             nuevo_tablero = simula_movimiento(temp_ficha, movimiento, temp_tablero, juego, skip)
-            movimientos.append(nuevo_tablero)
+            movimientos.append(nuevo_tablero,temp_ficha)
+            
             
     return movimientos
