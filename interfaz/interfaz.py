@@ -58,7 +58,7 @@ class Tablero:
 
     #funcion 
     def evalua(self):
-        return self.num_blancos - self.num_dorados + (self.reyes_blancos * 2 - self.reyes_dorados * 2)
+        return self.num_blancos - self.num_dorados + (self.reyes_blancos * 3 - self.reyes_dorados * 3)
 
     def get_todas_fichas(self, color):
         fichas = []
